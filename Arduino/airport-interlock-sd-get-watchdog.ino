@@ -29,6 +29,8 @@
 
 #include <SPI.h>         // needed for Arduino versions later than 0018
 #include <Ethernet.h>
+#include <OneWire.h> // https://www.pjrc.com/teensy/td_libs_OneWire.html
+#include <DallasTemperature.h>
 
 #define MAXSOFTDOG 10 // How many re-tries are allowed to get a correct string from the interlock server
 
@@ -46,10 +48,15 @@ const int RELAYpin = 4;       // The relay control pin for disabling transmissio
 const int WATCHDOGpin = 3;    // The pin connected to WDI of MAX693 (with external pull-up)
 const int USRPpin = 2 ;       // This is the heart beat from the USRP
 
+const int NTCpin = A0;        // The analog input to which an NTC-thermistor is connected
+const int ONE_WIRE_BUS = 8;   // The 1-wire temperature sensor is connected to this pin
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire); // There is a DS18B20+ temperature sensor on the board
+
 //---------------------------------------------------------------------------------------------------------------------------------
 
-unsigned long lastConnectionTime = 0;             // last time you connected to the server, in milliseconds
 const unsigned long pettingInterval = 2L * 1000L; // delay between updates, in milliseconds
+unsigned long lastConnectionTime = 0;             // last time you connected to the server, in milliseconds
 
 // Substring to look for and network buffers
 const char keywordInterlock[] = "INTERLOCK";
@@ -114,6 +121,10 @@ void setup() {
   pinMode(WATCHDOGpin, OUTPUT);
   pinMode(TXONpin, OUTPUT);
 
+  analogReference(DEFAULT);  
+  // With Arduino Ethernet, the A/D-converter is fixed to 10-bit resolution. 
+  // Other boards may need a call to analogReadResolution()
+  
   bootFlash(); // Do a quick flashing routine with the LEDs to announce a restart
 
   // Init the LEDs
@@ -129,6 +140,9 @@ void setup() {
 
   // Report the restart of the airport interlock system
   Serial.println("*** Ionosonde airport interlock restart ***");
+
+  // Init the 1-wire temperature sensors
+  sensors.begin();
 
   // "Pet" the dog after reset: this gets MAX693 out from the longer "reset timeout". After this the dog needs a pet more frequently.
   PetWatchdog();
@@ -149,6 +163,9 @@ void setup() {
 
 void reportStatus(void) {
   // Provide a status report via serial line
+  // but first get the temperatures from the sensors
+  sensors.requestTemperatures(); // Get the 1-wire sensor temperatures
+
   if (digitalRead(INTERLOCKpin) == 0) {
     Serial.print("interlockFALSE,");
   }    else {
@@ -170,10 +187,13 @@ void reportStatus(void) {
     Serial.print("relayON,");
   }
   if (digitalRead(USRPpin) == 0) {
-    Serial.println("usrpLOW");
+    Serial.print("usrpLOW,");
   }    else {
-    Serial.println("usrpHIGH");
+    Serial.print("usrpHIGH,");
   }
+  Serial.print(sensors.getTempCByIndex(0)); // There is only one sensor
+  Serial.print(',');
+  Serial.println(analogRead(NTCpin));
 }
 
 
