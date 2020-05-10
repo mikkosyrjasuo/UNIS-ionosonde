@@ -16,5 +16,6 @@ The normal `Serial.print()` function in Arduino uses the windows-style line endi
 
 `stty inlcr </dev/ttyUSB0`
 
-### TODO
-* The serial communication to the logger needs to be done via the actual serial port rather than via the Arduino's normal USB-serial. The reason is that every time one opens the device in linux e.g. `/dev/ttyUSB0`, Arduino will automatically reset (which is not what we want)
+If one uses the normal USB-cable, any time the receiving logger (Raspberry PI) opens the device in linux e.g. `/dev/ttyUSB0`, Arduino will automatically reset. This is definitely not the desired behaviour as the logger should only monitor the status.
+
+Arduino Ethernet is programmed with a special USB-serial cable (5V FTDI) and the DTR pin is used for resetting the Arduino. The most straightforward way to prevent the logger from resetting the Arduino is to simply leave this pin unconnected. I did this by swapping the 6-pin header to a 5-pin one (the centremost pin is DTR). For Arduinos with a an actual USB port, one could probably use the TxD and RxD pins (D0 and D1) in similar fashion with a FTDI cable. I have not tested this, though.
