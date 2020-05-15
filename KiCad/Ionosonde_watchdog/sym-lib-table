@@ -1,4 +1,6 @@
 (sym_lib_table
   (lib (name Ionosonde_watchdog)(type Legacy)(uri ${KIPRJMOD}/lib_sch/Ionosonde_watchdog.lib)(options "")(descr ""))
   (lib (name max693)(type Legacy)(uri ${KIPRJMOD}/lib_sch/max693.lib)(options "")(descr ""))
+  (lib (name ucc2946)(type Legacy)(uri ${KIPRJMOD}/lib_sch/ucc2946.lib)(options "")(descr ""))
+  (lib (name pvn012)(type Legacy)(uri ${KIPRJMOD}/lib_sch/pvn012.lib)(options "")(descr ""))
 )
