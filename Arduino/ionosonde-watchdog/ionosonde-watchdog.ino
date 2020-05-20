@@ -156,6 +156,8 @@ void setup() {
   Ethernet.begin(mac, ip);
   // give the Ethernet shield a second to initialize:
   delay(1000);
+  Ethernet.setRetransmissionTimeout(50); // The default is 200ms, which can result in a 1.6-sec delay, which is a bit long for the watchdog 
+  client.setConnectionTimeout(100); // The default is 1s, which is a bit long for a 2s watchdog timeout period
 }
 
 //---------------------------------------------------------------------------------------------------------------------------------
@@ -258,7 +260,7 @@ void loop() {
       // Good connection to the server and transmissions are allowed
       digitalWrite(INTERLOCKpin, LOW);    // No airport interlock
       digitalWrite(SERVERFAILpin, LOW);   // There is good connection
-      digitalWrite(TXONpin, !digitalRead(USRPpin)); // The signal from USRP is low if there is a transmission
+      digitalWrite(TXONpin, digitalRead(USRPpin)); // The signal from USRP is high if there is a transmission
 
       // If the USRP is running fine, then switch on the RF power amplifier
       if (digitalRead(TXONpin) == 1) {
