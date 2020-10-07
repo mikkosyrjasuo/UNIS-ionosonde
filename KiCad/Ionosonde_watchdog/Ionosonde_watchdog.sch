@@ -294,8 +294,8 @@ Wire Wire Line
 	1700 4500 1650 4500
 Wire Wire Line
 	1700 4600 1650 4600
-Text Notes 5300 5900 2    50   Italic 0
-RF PA power switch
+Text Notes 4850 6000 0    50   Italic 0
+RF PA power switch\n("C" connection, see datasheet)
 Text Notes 8750 4450 2    50   Italic 0
 Attached to RF PA heat sink
 Text Notes 5800 4100 2    50   Italic 0
@@ -1002,7 +1002,7 @@ Wire Wire Line
 Wire Wire Line
 	3250 6300 3650 6300
 Wire Wire Line
-	5050 6300 5550 6300
+	5050 6300 5250 6300
 Text GLabel 5550 6300 2    50   Input ~ 0
 VIN+12V
 Text GLabel 5550 6550 2    50   Input ~ 0
@@ -1037,17 +1037,6 @@ F 3 "~" H 5900 1900 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR?
-U 1 1 5ED7D7F1
-P 5900 2150
-F 0 "#PWR?" H 5900 1900 50  0001 C CNN
-F 1 "GND" H 5905 1977 50  0000 C CNN
-F 2 "" H 5900 2150 50  0001 C CNN
-F 3 "" H 5900 2150 50  0001 C CNN
-	1    5900 2150
-	1    0    0    -1  
-$EndComp
-$Comp
 L Device:R R?
 U 1 1 5ED7DCA5
 P 5900 1550
@@ -1060,8 +1049,6 @@ F 3 "~" H 5900 1550 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5900 1750 5900 1700
-Wire Wire Line
-	5900 2150 5900 2050
 Text Notes 6150 2600 2    50   Italic 0
 PA power on
 Text Notes 11900 6250 2    50   Italic 0
@@ -1133,71 +1120,132 @@ Wire Notes Line
 	10850 2950 10850 650 
 Wire Wire Line
 	1600 10400 1750 10400
-Wire Wire Line
-	2050 10400 2200 10400
 Text GLabel 13350 8150 2    50   Input Italic 0
 USRP_WDO
-Wire Wire Line
-	2100 10800 2200 10800
-Wire Wire Line
-	2200 10800 2200 10400
-Connection ~ 2200 10400
-Wire Wire Line
-	2200 10400 2400 10400
-Text GLabel 10300 3950 1    50   Input ~ 0
+Text GLabel 6100 8300 1    50   Input ~ 0
 VOUT+12V
 $Comp
 L Device:R R?
 U 1 1 5EDF7D7C
-P 10300 4250
-F 0 "R?" H 10370 4296 50  0000 L CNN
-F 1 "33k" H 10370 4205 50  0000 L CNN
-F 2 "" V 10230 4250 50  0001 C CNN
-F 3 "~" H 10300 4250 50  0001 C CNN
-	1    10300 4250
+P 6950 8650
+F 0 "R?" H 7020 8696 50  0000 L CNN
+F 1 "4k7" H 7020 8605 50  0000 L CNN
+F 2 "" V 6880 8650 50  0001 C CNN
+F 3 "~" H 6950 8650 50  0001 C CNN
+	1    6950 8650
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R R?
 U 1 1 5EDF82B4
-P 10300 4750
-F 0 "R?" H 10370 4796 50  0000 L CNN
-F 1 "10k" H 10370 4705 50  0000 L CNN
-F 2 "" V 10230 4750 50  0001 C CNN
-F 3 "~" H 10300 4750 50  0001 C CNN
-	1    10300 4750
+P 6100 8600
+F 0 "R?" H 6170 8646 50  0000 L CNN
+F 1 "??" H 6170 8555 50  0000 L CNN
+F 2 "" V 6030 8600 50  0001 C CNN
+F 3 "~" H 6100 8600 50  0001 C CNN
+	1    6100 8600
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 5EDF861D
-P 10300 5000
-F 0 "#PWR?" H 10300 4750 50  0001 C CNN
-F 1 "GND" H 10305 4827 50  0000 C CNN
-F 2 "" H 10300 5000 50  0001 C CNN
-F 3 "" H 10300 5000 50  0001 C CNN
-	1    10300 5000
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	10300 5000 10300 4900
-Wire Wire Line
-	10300 4100 10300 3950
-Wire Wire Line
-	10300 4600 10300 4450
-Text GLabel 9950 4450 0    50   Input ~ 0
+Text GLabel 7350 8850 2    50   Input ~ 0
 VMONpin
-Wire Wire Line
-	9950 4450 10300 4450
-Connection ~ 10300 4450
-Wire Wire Line
-	10300 4450 10300 4400
-Text Notes 9650 5350 0    50   ~ 0
-Measure the PA power supply voltage
+Text Notes 6150 9700 0    50   ~ 0
+Check whether the PA power supply\nis on or not
 Text Notes 6850 4300 0    50   ~ 0
 Arduino A0
-Text Notes 9550 4350 0    50   ~ 0
+Text Notes 7750 9000 2    50   ~ 0
 Arduino A1
 Text GLabel 3250 1200 1    50   Input ~ 0
 TOGGLEpin
+Wire Wire Line
+	5050 6800 5250 6800
+Wire Wire Line
+	5250 6800 5250 6300
+Connection ~ 5250 6300
+Wire Wire Line
+	5250 6300 5550 6300
+Wire Wire Line
+	2050 10400 2400 10400
+NoConn ~ 3650 6800
+Text Notes 3050 8300 0    50   ~ 0
+Arduino RESET
+$Comp
+L Isolator:LTV-356T U?
+U 1 1 5F7EE090
+P 6500 8950
+F 0 "U?" H 6500 9275 50  0000 C CNN
+F 1 "VO618A" H 6500 9184 50  0000 C CNN
+F 2 "Package_SO:SO-4_4.4x3.6mm_P2.54mm" H 6300 8750 50  0001 L CIN
+F 3 "http://optoelectronics.liteon.com/upload/download/DS70-2001-010/S_110_LTV-356T%2020140520.pdf" H 6500 8950 50  0001 L CNN
+	1    6500 8950
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDPWR #PWR?
+U 1 1 5F7F014A
+P 6100 9200
+F 0 "#PWR?" H 6100 9000 50  0001 C CNN
+F 1 "GNDPWR" H 6104 9046 50  0000 C CNN
+F 2 "" H 6100 9150 50  0001 C CNN
+F 3 "" H 6100 9150 50  0001 C CNN
+	1    6100 9200
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GNDPWR #PWR?
+U 1 1 5F7F1672
+P 5900 2250
+F 0 "#PWR?" H 5900 2050 50  0001 C CNN
+F 1 "GNDPWR" H 5904 2096 50  0000 C CNN
+F 2 "" H 5900 2200 50  0001 C CNN
+F 3 "" H 5900 2200 50  0001 C CNN
+	1    5900 2250
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5900 2050 5900 2250
+Wire Wire Line
+	6100 8300 6100 8450
+Wire Wire Line
+	6100 8750 6100 8850
+Wire Wire Line
+	6100 8850 6200 8850
+Wire Wire Line
+	6200 9050 6100 9050
+Wire Wire Line
+	6100 9050 6100 9200
+$Comp
+L power:GND #PWR?
+U 1 1 5F803EDD
+P 6850 9150
+F 0 "#PWR?" H 6850 8900 50  0001 C CNN
+F 1 "GND" H 6855 8977 50  0000 C CNN
+F 2 "" H 6850 9150 50  0001 C CNN
+F 3 "" H 6850 9150 50  0001 C CNN
+	1    6850 9150
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6800 9050 6850 9050
+Wire Wire Line
+	6850 9050 6850 9150
+$Comp
+L power:+5V #PWR?
+U 1 1 5F80E6CF
+P 6950 8450
+F 0 "#PWR?" H 6950 8300 50  0001 C CNN
+F 1 "+5V" H 6965 8623 50  0000 C CNN
+F 2 "" H 6950 8450 50  0001 C CNN
+F 3 "" H 6950 8450 50  0001 C CNN
+	1    6950 8450
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	6950 8450 6950 8500
+Wire Wire Line
+	6800 8850 6950 8850
+Wire Wire Line
+	6950 8850 6950 8800
+Wire Wire Line
+	6950 8850 7350 8850
+Connection ~ 6950 8850
 $EndSCHEMATC
